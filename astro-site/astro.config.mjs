@@ -6,6 +6,6 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://protothesis.github.io',
-	// base: '/',
+	// base: '../docs',
 	integrations: [mdx(), sitemap()],
 });
