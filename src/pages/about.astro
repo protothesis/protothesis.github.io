@@ -20,6 +20,8 @@ const skills = [
 const happy = true;
 const finished = false;
 const goal = 3;
+const skillcolor = "cornflowerblue";
+
 ---
 
 <!--
@@ -31,11 +33,23 @@ const goal = 3;
 	
 </Layout>
 -->
+
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 		<title>{pageTitle}</title>
+		<style define:vars={{ skillcolor }}>
+			h1 {
+				color: slateblue;
+				font-size: 4rem;
+			}
+			.skill {
+				color: {skillcolor};
+				font-weight: thin;
+				font-style: italic;
+			}
+		</style>
 	</head>
 	<body>
 		<a href="/">Home</a>
@@ -54,7 +68,7 @@ const goal = 3;
 		<p>
 			Skills include:
 			<ul>
-				{skills.map((skill) => <li>{skill}</li>)}
+				{skills.map((skill) => <li class="skill">{skill}</li>)}
 			</ul>
 		</p>
 
