@@ -1,39 +1,18 @@
 ---
-import BaseHead from "../components/BaseHead.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { getEntry } from "astro:content";
+import { render } from "astro:content";
+import Page from "../layouts/Page.astro";
+const entry = await getEntry("page", "index");
+
+if (!entry) {
+	throw new Error(
+		"The index page does not exist. Make sure to create a `src/content/pages/index.md` file.",
+	);
+}
+
+const { Content } = await render(entry);
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Visitor</h1>
-			<br />
-			<h2>protothesis.github.io</h2>
-			<p>
-				This is an experiment in Git hosted webpage powered by Astro.
-				<ul>
-					<li>
-						Trying to move away from cargo.site as a webdesign
-						platform.
-					</li>
-					<li>Unhappy with wordpress.</li>
-					<li>Curious about modern web development practices.</li>
-				</ul>
-				<p>
-					I'm embarrassed to say, im starting from a template and am
-					deploying without removing all the crap first. Hopefully no
-					one will see this.
-				</p>
-				<code>---</code>
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<Page {...entry.data}>
+	<Content />
+</Page>
