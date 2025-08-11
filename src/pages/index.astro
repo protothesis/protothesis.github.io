@@ -5,14 +5,14 @@ import Page from "../layouts/Page.astro";
 const entry = await getEntry("page", "index");
 
 if (!entry) {
-	throw new Error(
-		"The index page does not exist. Make sure to create a `src/content/pages/index.md` file.",
-	);
+  throw new Error(
+    "The index page does not exist. Make sure to create a `src/content/pages/index.md` file."
+  );
 }
 
 const { Content } = await render(entry);
 ---
 
 <Page {...entry.data}>
-	<Content />
+  <Content />
 </Page>

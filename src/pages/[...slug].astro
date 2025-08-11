@@ -3,11 +3,11 @@ import { getCollection, render } from "astro:content";
 import Layout from "../layouts/Page.astro";
 
 export async function getStaticPaths() {
-    const pageEntries = await getCollection("page");
-    return pageEntries.map((entry) => ({
-        params: { slug: entry.id },
-        props: { entry },
-    }));
+  const pageEntries = await getCollection("page");
+  return pageEntries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
 }
 
 const { entry } = Astro.props;
@@ -15,5 +15,5 @@ const { Content } = await render(entry);
 ---
 
 <Layout {...entry.data}>
-    <Content />
+  <Content />
 </Layout>
