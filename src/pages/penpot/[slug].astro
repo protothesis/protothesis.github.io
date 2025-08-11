@@ -1,0 +1,55 @@
+---
+import { getCollection } from "astro:content";
+import ProjectContent from "../../components/ProjectContent.astro";
+import BaseHead from "../../components/BaseHead.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+
+  return projects.map((project) => ({
+    params: { slug: project.data.slug },
+    props: { projectId: project.id },
+  }));
+}
+
+const { projectId } = Astro.props;
+const { slug } = Astro.params;
+
+// Get project data for meta information
+const projects = await getCollection("projects");
+const project = projects.find((p) => p.id === projectId);
+
+if (!project) {
+  throw new Error(`Project with id "${projectId}" not found`);
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`${project.data.title} - Casey Hunt`}
+      description={`${project.data.title} - ${project.data.medium || "Digital artwork"} from ${project.data.year || "Unknown year"}`}
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <ProjectContent projectId={projectId} />
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: "Source Code Pro", monospace;
+    background: #ffffff;
+  }
+</style>

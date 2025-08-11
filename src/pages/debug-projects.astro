@@ -1,0 +1,15 @@
+---
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects");
+---
+
+<html>
+  <head>
+    <title>Debug Projects</title>
+  </head>
+  <body>
+    <h1>Projects Debug</h1>
+    <pre>{JSON.stringify(projects, null, 2)}</pre>
+  </body>
+</html>

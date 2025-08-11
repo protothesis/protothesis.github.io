@@ -1,0 +1,37 @@
+---
+import { getEntry, render } from "astro:content";
+import ProjectTwoColumn from "../layouts/penpot/ProjectTwoColumn.astro";
+
+export interface Props {
+  projectId: string;
+}
+
+const { projectId } = Astro.props;
+
+const project = await getEntry("projects", projectId);
+
+if (!project) {
+  throw new Error(`Project with id "${projectId}" not found`);
+}
+
+const { Content } = await render(project);
+const { title, medium, year, attribution, description } = project.data;
+
+// Split description into paragraphs
+const descriptionParagraphs = description
+  ? description.split("\n\n").filter((p) => p.trim())
+  : [];
+---
+
+<ProjectTwoColumn
+  title={title}
+  medium={medium}
+  year={year}
+  attribution={attribution}
+>
+  <div slot="description">
+    {descriptionParagraphs.map((paragraph) => <p>{paragraph.trim()}</p>)}
+  </div>
+
+  <Content />
+</ProjectTwoColumn>
