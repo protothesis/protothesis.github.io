@@ -1,0 +1,119 @@
+---
+import ProjectNavigation from "../../layouts/penpot/ProjectNavigation.astro";
+import BaseHead from "../../components/BaseHead.astro";
+
+const projects = [
+  { name: "Project 1", href: "/penpot/project-1", active: true },
+  { name: "Project 2", href: "/penpot/project-2" },
+  { name: "Project 3", href: "/penpot/project-3" },
+  { name: "Project 4", href: "/penpot/project-4" },
+  { name: "Project 5", href: "/penpot/project-5" },
+  { name: "Project 6", href: "/penpot/project-6" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title="Navigation Test - Casey Hunt"
+      description="Testing the navigation component"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="test-container">
+      <div class="nav-container">
+        <ProjectNavigation siteName="CASEY HUNT" projects={projects} />
+      </div>
+      <div class="content-area">
+        <h1>Navigation Component Test</h1>
+        <p>
+          This page demonstrates the navigation component in isolation. The
+          navigation should be fully functional and responsive.
+        </p>
+        <h2>Features:</h2>
+        <ul>
+          <li>Clean, semantic HTML structure</li>
+          <li>Responsive design (collapses on mobile)</li>
+          <li>Active state indication</li>
+          <li>Hover effects</li>
+          <li>Monospace typography matching the design</li>
+        </ul>
+        <p>
+          <strong>Compare this to the original PenPot output:</strong> This navigation
+          uses clean class names, semantic HTML, and about 50 lines of CSS instead
+          of hundreds of auto-generated styles.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: "Source Code Pro", monospace;
+    background: #ffffff;
+  }
+
+  .test-container {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .nav-container {
+    flex-shrink: 0;
+  }
+
+  .content-area {
+    flex: 1;
+    padding: 2rem;
+    max-width: 600px;
+  }
+
+  .content-area h1 {
+    font-family: "Space Mono", monospace;
+    font-size: 1.5rem;
+    color: #000;
+    margin-bottom: 1rem;
+  }
+
+  .content-area h2 {
+    font-family: "Space Mono", monospace;
+    font-size: 1.2rem;
+    color: #e15a7c;
+    margin: 2rem 0 1rem 0;
+  }
+
+  .content-area p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #000;
+    margin-bottom: 1rem;
+  }
+
+  .content-area ul {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #000;
+  }
+
+  .content-area li {
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .test-container {
+      flex-direction: column;
+    }
+  }
+</style>

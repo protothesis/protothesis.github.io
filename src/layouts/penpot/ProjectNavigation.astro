@@ -1,0 +1,113 @@
+---
+export interface Props {
+  siteName?: string;
+  projects?: Array<{
+    name: string;
+    href: string;
+    active?: boolean;
+  }>;
+}
+
+const {
+  siteName = "CASEY HUNT",
+  projects = [
+    { name: "Project 1", href: "/penpot/project-1" },
+    { name: "Project 2", href: "/penpot/project-2" },
+    { name: "Project 3", href: "/penpot/project-3" },
+    { name: "Project 4", href: "/penpot/project-4" },
+    { name: "Project 5", href: "/penpot/project-5" },
+    { name: "Project 6", href: "/penpot/project-6" },
+  ],
+} = Astro.props;
+---
+
+<nav class="project-navigation">
+  <div class="site-title">
+    <h1><a href="/penpot/">{siteName}</a></h1>
+  </div>
+
+  <ul class="project-list">
+    {
+      projects.map((project) => (
+        <li class={project.active ? "active" : ""}>
+          <a href={project.href}>{project.name}</a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .project-navigation {
+    width: 100%;
+    max-width: 280px;
+    padding: 2rem 1rem;
+    background: #ffffff;
+    border-right: 1px solid #eee;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+  }
+
+  .site-title {
+    margin-bottom: 3rem;
+  }
+
+  .site-title h1 {
+    font-family: "Space Mono", monospace;
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .site-title a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  .site-title a:hover {
+    color: #e15a7c;
+  }
+
+  .project-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .project-list li {
+    margin-bottom: 0.75rem;
+  }
+
+  .project-list a {
+    font-family: "Source Code Pro", monospace;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #000;
+    text-decoration: none;
+    display: block;
+    padding: 0.5rem 0;
+    transition: color 0.2s ease;
+  }
+
+  .project-list a:hover {
+    color: #e15a7c;
+  }
+
+  .project-list li.active a {
+    color: #e15a7c;
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .project-navigation {
+      position: static;
+      height: auto;
+      max-width: none;
+      border-right: none;
+      border-bottom: 1px solid #eee;
+    }
+  }
+</style>
