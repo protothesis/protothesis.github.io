@@ -1,9 +1,13 @@
 ---
 import SiteLayout from "../../layouts/penpot/SiteLayout.astro";
 import ProjectContent from "../../components/ProjectContent.astro";
-import { getProjectsNavigation } from "../../utils/projects";
+import { getProjectsNavigation, getAllProjects } from "../../utils/projects";
 
 const projects = await getProjectsNavigation();
+const allProjects = await getAllProjects();
+
+// Get the first project dynamically, or you could make this configurable
+const currentProject = allProjects[0];
 ---
 
 <SiteLayout
@@ -12,5 +16,5 @@ const projects = await getProjectsNavigation();
   showNav={true}
   projects={projects}
 >
-  <ProjectContent projectId="healing-riders-wrath" />
+  <ProjectContent projectId={currentProject.id} />
 </SiteLayout>
