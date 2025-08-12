@@ -4,10 +4,11 @@ import { Image } from "astro:assets";
 interface Props {
   source: string;
   columns?: number;
-  gap?: string;
+  style?: "masonry" | "grid";
+  viewer?: boolean;
 }
 
-const { source, columns = 3, gap = "1rem" } = Astro.props;
+const { source, columns = 3, style = "masonry", viewer = true } = Astro.props;
 
 // Get all images from the specified directory
 const images = import.meta.glob("/src/assets/**/*.{png,jpg,jpeg,webp,gif}", {
@@ -19,42 +20,76 @@ const sourceImages = Object.entries(images)
   .filter(([path]) =>
     path.includes(source.replace("../../assets/", "/src/assets/"))
   )
-  .map(([path, module]) => ({
+  .map(([path, module], index) => ({
     path,
     image: (module as any).default,
     filename: path.split("/").pop()?.split(".")[0] || "image",
+    index,
   }))
   .sort((a, b) => a.filename.localeCompare(b.filename));
 
-// Generate responsive grid classes based on columns prop
-const gridCols = {
-  1: "grid-cols-1",
-  2: "grid-cols-1 md:grid-cols-2",
-  3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
-  4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4",
-  5: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5",
-  6: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6",
-};
+// Generate unique gallery ID for this instance
+const galleryId = `gallery-${Math.random().toString(36).substr(2, 9)}`;
 
-const gridClass = gridCols[columns as keyof typeof gridCols] || gridCols[3];
+// Calculate column width based on columns prop
+const columnWidth = Math.floor(100 / columns);
 ---
 
 {
   sourceImages.length > 0 ? (
-    <div class={`gallery-container grid ${gridClass} gap-4 my-8`}>
-      {sourceImages.map(({ image, filename }) => (
-        <div class="gallery-item group cursor-pointer">
-          <div class="overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-            <Image
-              src={image}
-              alt={`Gallery image: ${filename.replace(/[-_]/g, " ")}`}
-              class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-              format="webp"
+    <div class="gallery-wrapper my-8">
+      <div
+        id={galleryId}
+        class={`gallery-container ${style === "masonry" ? "masonry-layout" : "grid-layout"}`}
+        style={
+          style === "masonry"
+            ? `columns: ${columns}; column-gap: 1rem;`
+            : `display: grid; grid-template-columns: repeat(auto-fit, minmax(${Math.floor(300 / columns)}px, 1fr)); gap: 1rem;`
+        }
+      >
+        {sourceImages.map(({ image, filename, index }) => (
+          <div
+            class={`gallery-item ${viewer ? "cursor-pointer" : ""} ${style === "masonry" ? "masonry-item" : "grid-item"}`}
+            data-index={index}
+            data-gallery={galleryId}
+          >
+            <div class="image-wrapper overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all duration-300 mb-4">
+              <Image
+                src={image}
+                alt={`Gallery image: ${filename.replace(/[-_]/g, " ")}`}
+                class={`w-full ${style === "grid" ? "h-64 object-cover" : "h-auto"} hover:scale-105 transition-transform duration-300`}
+                loading="lazy"
+                format="webp"
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {viewer && (
+        <div
+          id={`${galleryId}-modal`}
+          class="gallery-modal fixed inset-0 bg-black bg-opacity-90 z-50 hidden items-center justify-center"
+        >
+          <div class="modal-content relative max-w-4xl max-h-full p-4">
+            <button class="modal-close absolute top-4 right-4 text-white text-2xl hover:text-gray-300 z-10">
+              ×
+            </button>
+            <button class="modal-prev absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl hover:text-gray-300 z-10">
+              ‹
+            </button>
+            <button class="modal-next absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl hover:text-gray-300 z-10">
+              ›
+            </button>
+            <img
+              class="modal-image max-w-full max-h-full object-contain"
+              src=""
+              alt=""
             />
+            <div class="modal-caption text-white text-center mt-4 text-sm" />
           </div>
         </div>
-      ))}
+      )}
     </div>
   ) : (
     <div class="gallery-error p-4 bg-yellow-50 border border-yellow-200 rounded-lg my-8">
@@ -67,13 +102,147 @@ const gridClass = gridCols[columns as keyof typeof gridCols] || gridCols[3];
 }
 
 <style>
-  .gallery-container {
-    container-type: inline-size;
+  .masonry-layout {
+    column-fill: balance;
   }
 
-  @container (max-width: 640px) {
-    .gallery-item {
-      grid-column: span 1;
+  .masonry-item {
+    break-inside: avoid;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .grid-layout {
+    display: grid;
+  }
+
+  .grid-item {
+    display: block;
+  }
+
+  .gallery-modal {
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-content {
+    animation: modalFadeIn 0.3s ease-out;
+  }
+
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Responsive columns for masonry */
+  @media (max-width: 640px) {
+    .masonry-layout {
+      columns: 1 !important;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .masonry-layout {
+      columns: 2 !important;
     }
   }
 </style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get all gallery containers
+    const galleries = document.querySelectorAll(".gallery-container");
+
+    galleries.forEach((gallery) => {
+      const galleryId = gallery.id;
+      const modal = document.getElementById(`${galleryId}-modal`);
+      const modalImage = modal?.querySelector(
+        ".modal-image"
+      ) as HTMLImageElement;
+      const modalCaption = modal?.querySelector(
+        ".modal-caption"
+      ) as HTMLDivElement;
+      const closeBtn = modal?.querySelector(
+        ".modal-close"
+      ) as HTMLButtonElement;
+      const prevBtn = modal?.querySelector(".modal-prev") as HTMLButtonElement;
+      const nextBtn = modal?.querySelector(".modal-next") as HTMLButtonElement;
+      const items = gallery.querySelectorAll(".gallery-item");
+
+      if (!modal || !modalImage || !modalCaption) return;
+
+      let currentIndex = 0;
+      const images = Array.from(items).map((item) => {
+        const img = item.querySelector("img") as HTMLImageElement;
+        const htmlItem = item as HTMLElement;
+        return {
+          src: img?.src || "",
+          alt: img?.alt || "",
+          index: parseInt(htmlItem.dataset.index || "0"),
+        };
+      });
+
+      function showImage(index: number) {
+        if (index < 0) index = images.length - 1;
+        if (index >= images.length) index = 0;
+
+        currentIndex = index;
+        const image = images[index];
+
+        modalImage.src = image.src;
+        modalImage.alt = image.alt;
+        modalCaption.textContent = image.alt;
+      }
+
+      function openModal(index: number) {
+        showImage(index);
+        modal!.classList.remove("hidden");
+        modal!.classList.add("flex");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        modal!.classList.add("hidden");
+        modal!.classList.remove("flex");
+        document.body.style.overflow = "";
+      }
+
+      // Add click listeners to gallery items
+      items.forEach((item, index: number) => {
+        item.addEventListener("click", () => openModal(index));
+      });
+
+      // Modal controls
+      closeBtn?.addEventListener("click", closeModal);
+      prevBtn?.addEventListener("click", () => showImage(currentIndex - 1));
+      nextBtn?.addEventListener("click", () => showImage(currentIndex + 1));
+
+      // Click outside to close
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      // Keyboard navigation
+      document.addEventListener("keydown", (e) => {
+        if (!modal!.classList.contains("hidden")) {
+          switch (e.key) {
+            case "Escape":
+              closeModal();
+              break;
+            case "ArrowLeft":
+              showImage(currentIndex - 1);
+              break;
+            case "ArrowRight":
+              showImage(currentIndex + 1);
+              break;
+          }
+        }
+      });
+    });
+  });
+</script>

@@ -29,21 +29,47 @@ And here's the result:
 The Gallery component includes:
 
 - **Auto-discovery**: Automatically finds all images in the specified directory
-- **Responsive design**: Adapts from 1 column on mobile to 3 columns on desktop
+- **Masonry layout**: Pinterest-style layout that preserves image aspect ratios
+- **Grid layout**: Uniform height layout for consistent appearance
+- **Responsive design**: Adapts from 1 column on mobile to configurable columns on desktop
+- **Image viewer**: Click any image to open in a lightbox with navigation
+- **Keyboard navigation**: Use arrow keys to navigate, Escape to close
 - **Hover effects**: Images scale slightly on hover with smooth transitions
 - **Optimized images**: Uses Astro's Image component for automatic optimization
 - **Lazy loading**: Images load only when needed for better performance
 - **WebP format**: Automatically converts images to WebP for smaller file sizes
+- **Configurable columns**: Set custom number of columns (1-6)
+- **Optional viewer**: Can disable lightbox if needed
+
+## Masonry Layout (Default)
+
+The default masonry layout preserves image aspect ratios and creates a Pinterest-style gallery:
+
+```mdx
+<Gallery source="../../assets/blog/test-post" />
+```
+
+<Gallery source="../../assets/blog/test-post" />
+
+## Grid Layout
+
+For uniform image heights, use the grid style:
+
+```mdx
+<Gallery source="../../assets/blog/test-post" style="grid" />
+```
+
+<Gallery source="../../assets/blog/test-post" style="grid" />
 
 ## Custom Column Layout
 
-You can also specify the number of columns:
+You can specify the number of columns (works with both masonry and grid):
 
 ```mdx
-<Gallery source="../../assets/blog/test-post" columns={2} />
+<Gallery source="../../assets/blog/test-post" columns={2} style="masonry" />
 ```
 
-<Gallery source="../../assets/blog/test-post" columns={2} />
+<Gallery source="../../assets/blog/test-post" columns={2} style="masonry" />
 
 ## Single Column Layout
 
@@ -54,6 +80,16 @@ Perfect for showcasing larger images:
 ```
 
 <Gallery source="../../assets/blog/test-post" columns={1} />
+
+## Gallery Without Viewer
+
+If you want to disable the lightbox viewer:
+
+```mdx
+<Gallery source="../../assets/blog/test-post" viewer={false} />
+```
+
+<Gallery source="../../assets/blog/test-post" viewer={false} />
 
 ## How It Works
 
