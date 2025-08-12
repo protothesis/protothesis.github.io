@@ -4,9 +4,10 @@
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
 
+@layer base {
 :root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
+	--accent: indianred;
+	--accent-dark: firebrick;
 	--black: 15, 18, 25;
 	--gray: 96, 115, 159;
 	--gray-light: 229, 233, 240;
@@ -103,7 +104,7 @@ table {
 img {
 	max-width: 100%;
 	height: auto;
-	border-radius: 8px;
+	border-radius: 2px;
 }
 code {
 	padding: 2px 5px;
@@ -112,7 +113,7 @@ code {
 }
 pre {
 	padding: 1.5em;
-	border-radius: 8px;
+	border-radius: 2px;
 }
 pre > code {
 	all: unset;
@@ -152,4 +153,6 @@ hr {
 	clip-path: inset(50%);
 	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
+}
+
 }
