@@ -1,0 +1,68 @@
+---
+title: "Gallery Component Test"
+description: "Testing the new Gallery component with AI-generated images"
+pubDate: "Dec 08 2024"
+slug: "gallery-test"
+heroImage: "../../assets/blog/test-post/00 randomhallucination b1_sd15_00001_.png"
+---
+
+import Gallery from '../../components/Gallery.astro';
+
+# Gallery Component Test
+
+This is a test post to demonstrate the new **Gallery component** in action. The component automatically discovers and displays all images from a specified directory.
+
+## Simple Gallery Usage
+
+Here's how easy it is to add a gallery to your blog post:
+
+```mdx
+<Gallery source="../../assets/blog/test-post" />
+```
+
+And here's the result:
+
+<Gallery source="../../assets/blog/test-post" />
+
+## Features
+
+The Gallery component includes:
+
+- **Auto-discovery**: Automatically finds all images in the specified directory
+- **Responsive design**: Adapts from 1 column on mobile to 3 columns on desktop
+- **Hover effects**: Images scale slightly on hover with smooth transitions
+- **Optimized images**: Uses Astro's Image component for automatic optimization
+- **Lazy loading**: Images load only when needed for better performance
+- **WebP format**: Automatically converts images to WebP for smaller file sizes
+
+## Custom Column Layout
+
+You can also specify the number of columns:
+
+```mdx
+<Gallery source="../../assets/blog/test-post" columns={2} />
+```
+
+<Gallery source="../../assets/blog/test-post" columns={2} />
+
+## Single Column Layout
+
+Perfect for showcasing larger images:
+
+```mdx
+<Gallery source="../../assets/blog/test-post" columns={1} />
+```
+
+<Gallery source="../../assets/blog/test-post" columns={1} />
+
+## How It Works
+
+The Gallery component:
+
+1. Uses `import.meta.glob()` to dynamically import all images from the specified directory
+2. Filters the results to match your source path
+3. Sorts images alphabetically by filename
+4. Renders them in a responsive CSS Grid using Tailwind classes
+5. Applies hover effects and proper alt text
+
+This makes it incredibly easy to add image galleries to any blog post without manually listing each image!

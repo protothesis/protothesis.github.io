@@ -1,0 +1,79 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  source: string;
+  columns?: number;
+  gap?: string;
+}
+
+const { source, columns = 3, gap = "1rem" } = Astro.props;
+
+// Get all images from the specified directory
+const images = import.meta.glob("/src/assets/**/*.{png,jpg,jpeg,webp,gif}", {
+  eager: true,
+});
+
+// Filter images that match the source path
+const sourceImages = Object.entries(images)
+  .filter(([path]) =>
+    path.includes(source.replace("../../assets/", "/src/assets/"))
+  )
+  .map(([path, module]) => ({
+    path,
+    image: (module as any).default,
+    filename: path.split("/").pop()?.split(".")[0] || "image",
+  }))
+  .sort((a, b) => a.filename.localeCompare(b.filename));
+
+// Generate responsive grid classes based on columns prop
+const gridCols = {
+  1: "grid-cols-1",
+  2: "grid-cols-1 md:grid-cols-2",
+  3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+  4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4",
+  5: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5",
+  6: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6",
+};
+
+const gridClass = gridCols[columns as keyof typeof gridCols] || gridCols[3];
+---
+
+{
+  sourceImages.length > 0 ? (
+    <div class={`gallery-container grid ${gridClass} gap-4 my-8`}>
+      {sourceImages.map(({ image, filename }) => (
+        <div class="gallery-item group cursor-pointer">
+          <div class="overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <Image
+              src={image}
+              alt={`Gallery image: ${filename.replace(/[-_]/g, " ")}`}
+              class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+              format="webp"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div class="gallery-error p-4 bg-yellow-50 border border-yellow-200 rounded-lg my-8">
+      <p class="text-yellow-800">
+        No images found in:{" "}
+        <code class="bg-yellow-100 px-2 py-1 rounded">{source}</code>
+      </p>
+    </div>
+  )
+}
+
+<style>
+  .gallery-container {
+    container-type: inline-size;
+  }
+
+  @container (max-width: 640px) {
+    .gallery-item {
+      grid-column: span 1;
+    }
+  }
+</style>
