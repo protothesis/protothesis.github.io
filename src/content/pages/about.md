@@ -1,11 +1,14 @@
 ---
-title: 'About'
-description: 'about the artist'
-pubDate: 'Jul 22 2025'
-heroImage: '../../assets/00 randomhallucination b0_sd15_00001_.png'
+title: About
+description: about the artist
+pubDate: Jul 22 2025
+heroImage: ../../assets/PXL_20240507_162116209.jpg
+fmContentType: page
 ---
 
 ## Visual Amalgamist | Philosopher Hobbit | Oneiric Wanderer
+
+![Selfie of the Artist in Italy](../../assets/PXL_20240507_162116209.jpg)
 
 After graduating BFA in Digital Media from Otis College, Casey pulled a stint as one third of the directing collective ‘Three Legged Legs’, leaving a humble body of audio visual madness in his wake. After its dissolution, an extended sabbatical led to co-founding the radical indie dev space ‘Glitch City’. There he ended up with ‘Heart Machine‘, contributing Narrative & World Building / Level Design / Miscellaneous Artistry to the award winning Kickstarted Indie Game : ‘ Hyper Light Drifter ’.
 
@@ -17,13 +20,13 @@ He’s an avid letter writer, and is often found not wearing shoes.
 
 ---
 
->I’ve often longed for an invitation into the unknown, the promise of otherworldly mystery, an entryway to the fantastical beyond. The power of symbol, myth, and archetypal energy to shape thought and bring meaning to experience is also of keen interest. As varied as my artistic output tends to be, these elements generally underpin what gets made.
+> I’ve often longed for an invitation into the unknown, the promise of otherworldly mystery, an entryway to the fantastical beyond. The power of symbol, myth, and archetypal energy to shape thought and bring meaning to experience is also of keen interest. As varied as my artistic output tends to be, these elements generally underpin what gets made.
 >
->A narrative and symbolic component can be found in much of the work, sometimes oblique, tending towards illustrative and evocative images heavy in traditional media; pen, ink, and colored pencil. Digital tools have always augmented this traditional foundation, sometimes bringing things to life through animation. Observational drawing too is a regular part of my process.
+> A narrative and symbolic component can be found in much of the work, sometimes oblique, tending towards illustrative and evocative images heavy in traditional media; pen, ink, and colored pencil. Digital tools have always augmented this traditional foundation, sometimes bringing things to life through animation. Observational drawing too is a regular part of my process.
 >
->My current practice is generally without preconception, thrusting myself wholly into experimental processes for their own sake. This has brought me into resonant contact with modular synthesis, creating music and soundscapes, adding an auditory dimension to my otherwise primarily visual practice; simultaneously influencing it in unexpected ways.
+> My current practice is generally without preconception, thrusting myself wholly into experimental processes for their own sake. This has brought me into resonant contact with modular synthesis, creating music and soundscapes, adding an auditory dimension to my otherwise primarily visual practice; simultaneously influencing it in unexpected ways.
 >
->I’m interested in generative and procedural design, as well as reactive/interactive digital works, with an aspiration towards ultimately discovering the intersection of these diverse sets of methods and medium.
+> I’m interested in generative and procedural design, as well as reactive/interactive digital works, with an aspiration towards ultimately discovering the intersection of these diverse sets of methods and medium.
 >
 > **TLDR:** I make fantastical stuff with drawing, computers, and esoteric musical equipment!
 
@@ -31,11 +34,10 @@ He’s an avid letter writer, and is often found not wearing shoes.
 
 Currently accepting written correspondence :
 
->3744 Louisiana Ave.  
->St. Louis, MO 63118
+> 3744 Louisiana Ave.  
+> St. Louis, MO 63118
 
 email : hunt.casey@gmail.com
-
 
 ---
 
